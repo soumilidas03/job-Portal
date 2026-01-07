@@ -4,28 +4,27 @@ import cors from "cors";
 import dotenv from "dotenv";
 import connectDB from "./utils/db.js";
 import userRoute from "./routes/user.route.js";
+import companyRoute from "./routes/company.route.js";
 
 dotenv.config({});
 const app = express();
-
-
 
 //middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-const corsOptions={
-    origin:"http://localhost:5173",
-    credintials:true
-}
+const corsOptions = {
+  origin: "http://localhost:5173",
+  credintials: true,
+};
 app.use(cors(corsOptions));
 
-
 //api
-app.use("/api/user",userRoute);
+app.use("/api/user", userRoute);
+app.use("/api/company", companyRoute);
 
-const PORT= process.env.PORT||3000;
-app.listen(PORT,()=>{
-    connectDB()
-    console.log(`Server running at port : "http://localhost:${PORT}"`);
-})
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  connectDB();
+  console.log(`Server running at port : "http://localhost:${PORT}"`);
+});
