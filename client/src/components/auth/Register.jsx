@@ -7,6 +7,9 @@ import { useState } from "react";
 import { USER_API_END_POINT } from "../../utils/constant.js";
 import axios from "axios";
 import { toast } from "sonner";
+import { useDispatch, useSelector } from "react-redux";
+import { setLoading } from "../../redux/authSlice.js";
+import { Loader2 } from "lucide-react";
 
 const Register = () => {
   const [input, setInput] = useState({
@@ -17,7 +20,9 @@ const Register = () => {
     role: "",
     file: "",
   });
+  const { loading } = useSelector((store) => store.auth);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const changeEventHandler = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
   };
@@ -26,7 +31,7 @@ const Register = () => {
   };
   const submitHandler = async (e) => {
     e.preventDefault();
-    
+    dispatch(setLoading(true));
     try {
       const formData = new FormData();
       formData.append("fullName", input.fullName);
@@ -49,6 +54,8 @@ const Register = () => {
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message);
+    } finally {
+      dispatch(setLoading(false));
     }
   };
   return (
@@ -78,7 +85,6 @@ const Register = () => {
                 className="w-full border-gray-300 focus:border-blue-500"
               />
             </div>
-
             <div className="space-y-2">
               <Label htmlFor="email" className="text-sm font-medium">
                 Email Address
@@ -93,7 +99,6 @@ const Register = () => {
                 className="w-full border-gray-300 focus:border-blue-500"
               />
             </div>
-
             <div className="space-y-2">
               <Label htmlFor="phone" className="text-sm font-medium">
                 Phone Number
@@ -108,7 +113,6 @@ const Register = () => {
                 className="w-full border-gray-300 focus:border-blue-500"
               />
             </div>
-
             <div className="space-y-2">
               <Label htmlFor="password" className="text-sm font-medium">
                 Password
@@ -123,7 +127,6 @@ const Register = () => {
                 className="w-full border-gray-300 focus:border-blue-500"
               />
             </div>
-
             <div className="space-y-3 pt-2">
               <Label className="text-sm font-medium text-gray-800">
                 Account Type
@@ -175,7 +178,6 @@ const Register = () => {
                 </label>
               </div>
             </div>
-
             <div className="space-y-2">
               <Label htmlFor="file" className="text-sm font-medium">
                 Profile Picture
@@ -189,15 +191,20 @@ const Register = () => {
                 onChange={changeFileHandler}
                 className="border-gray-300"
               />
-            </div>
-
-            <Button
-              type="submit"
-              className="w-full mt-8 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2"
-            >
-              Sign Up
-            </Button>
-
+            </div>{" "}
+            {loading ? (
+              <Button className="w-full mt-8 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 flex items-center justify-center gap-2">
+                <Loader2 className="w-5 h-5 animate-spin" />
+                <span>Signing up...</span>
+              </Button>
+            ) : (
+              <Button
+                type="submit"
+                className="w-full mt-8 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2"
+              >
+                Sign up
+              </Button>
+            )}
             <div className="text-center text-gray-600 text-sm">
               Already have an account?{" "}
               <Link

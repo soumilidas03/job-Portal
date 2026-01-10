@@ -7,6 +7,9 @@ import { useState } from "react";
 import axios from "axios";
 import { USER_API_END_POINT } from "../../utils/constant.js";
 import { toast } from "sonner";
+import { setLoading } from "../../redux/authSlice.js";
+import { useDispatch, useSelector } from "react-redux";
+import { Loader2 } from "lucide-react";
 
 const Login = () => {
   const [input, setInput] = useState({
@@ -14,7 +17,9 @@ const Login = () => {
     password: "",
     role: "",
   });
+  const { loading } = useSelector((store) => store.auth);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const changeEventHandler = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
   };
@@ -22,6 +27,7 @@ const Login = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
+      dispatch(setLoading(true));
       const res = await axios.post(`${USER_API_END_POINT}/login`, input, {
         headers: {
           "Content-Type": "application/json",
@@ -35,6 +41,8 @@ const Login = () => {
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message);
+    } finally {
+      dispatch(setLoading(false));
     }
   };
 
@@ -63,7 +71,6 @@ const Login = () => {
                 className="w-full border-gray-300 focus:border-blue-500"
               />
             </div>
-
             <div className="space-y-2">
               <Label htmlFor="password" className="text-sm font-medium">
                 Password
@@ -78,7 +85,6 @@ const Login = () => {
                 className="w-full border-gray-300 focus:border-blue-500"
               />
             </div>
-
             <div className="space-y-3 pt-2">
               <Label className="text-sm font-medium text-gray-800">
                 Account Type
@@ -131,12 +137,19 @@ const Login = () => {
               </div>
             </div>
 
-            <Button
-              type="submit"
-              className="w-full mt-8 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2"
-            >
-              Log in
-            </Button>
+            {loading ? (
+              <Button className="w-full mt-8 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 flex items-center justify-center gap-2">
+                <Loader2 className="w-5 h-5 animate-spin" />
+                <span>Logging in...</span>
+              </Button>
+            ) : (
+              <Button
+                type="submit"
+                className="w-full mt-8 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2"
+              >
+                Log in
+              </Button>
+            )}
 
             <div className="text-center text-gray-600 text-sm">
               Don't have an account?{" "}
