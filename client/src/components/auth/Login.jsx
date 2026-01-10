@@ -1,11 +1,43 @@
 import Navbar from "../shared/navbar";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import axios from "axios";
+import { USER_API_END_POINT } from "../../utils/constant.js";
+import { toast } from "sonner";
 
 const Login = () => {
+  const [input, setInput] = useState({
+    email: "",
+    password: "",
+    role: "",
+  });
+  const navigate = useNavigate();
+  const changeEventHandler = (e) => {
+    setInput({ ...input, [e.target.name]: e.target.value });
+  };
+
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post(`${USER_API_END_POINT}/login`, input, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      });
+      if (res.data.success) {
+        navigate("/");
+        toast.success(res.data.message);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message);
+    }
+  };
+
   return (
     <div>
       <Navbar />
@@ -16,13 +48,16 @@ const Login = () => {
             <p className="text-gray-600 text-sm mt-2">Enter your details</p>
           </div>
 
-          <form className="space-y-5">
+          <form onSubmit={submitHandler} className="space-y-5">
             <div className="space-y-2">
               <Label htmlFor="email" className="text-sm font-medium">
                 Email Address
               </Label>
               <Input
                 id="email"
+                value={input.email}
+                name="email"
+                onChange={changeEventHandler}
                 type="email"
                 placeholder="john@gmail.com"
                 className="w-full border-gray-300 focus:border-blue-500"
@@ -35,6 +70,9 @@ const Login = () => {
               </Label>
               <Input
                 id="password"
+                value={input.password}
+                name="password"
+                onChange={changeEventHandler}
                 type="password"
                 placeholder="••••••••"
                 className="w-full border-gray-300 focus:border-blue-500"
@@ -42,27 +80,55 @@ const Login = () => {
             </div>
 
             <div className="space-y-3 pt-2">
-              <Label className="text-sm font-medium">Account Type</Label>
-              <RadioGroup defaultValue="student">
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="student" id="student" />
-                  <Label
-                    htmlFor="student"
-                    className="font-normal cursor-pointer text-gray-700"
-                  >
-                    Student
-                  </Label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="recruiter" id="recruiter" />
-                  <Label
-                    htmlFor="recruiter"
-                    className="font-normal cursor-pointer text-gray-700"
-                  >
-                    Recruiter
-                  </Label>
-                </div>
-              </RadioGroup>
+              <Label className="text-sm font-medium text-gray-800">
+                Account Type
+              </Label>
+
+              <div className="grid grid-cols-2 gap-4 mt-2">
+                {/* Student */}
+                <label
+                  htmlFor="student"
+                  className={`flex items-center justify-center gap-2 p-4 rounded-lg border cursor-pointer transition-all
+        ${
+          input.role === "student"
+            ? "border-blue-600 bg-blue-50 text-blue-700"
+            : "border-gray-300 hover:border-blue-400 hover:bg-gray-50"
+        }`}
+                >
+                  <Input
+                    type="radio"
+                    id="student"
+                    name="role"
+                    value="student"
+                    checked={input.role === "student"}
+                    onChange={changeEventHandler}
+                    className="hidden"
+                  />
+                  <span className="font-medium">Student</span>
+                </label>
+
+                {/* Recruiter */}
+                <label
+                  htmlFor="recruiter"
+                  className={`flex items-center justify-center gap-2 p-4 rounded-lg border cursor-pointer transition-all
+        ${
+          input.role === "recruiter"
+            ? "border-blue-600 bg-blue-50 text-blue-700"
+            : "border-gray-300 hover:border-blue-400 hover:bg-gray-50"
+        }`}
+                >
+                  <Input
+                    type="radio"
+                    id="recruiter"
+                    name="role"
+                    value="recruiter"
+                    checked={input.role === "recruiter"}
+                    onChange={changeEventHandler}
+                    className="hidden"
+                  />
+                  <span className="font-medium">Recruiter</span>
+                </label>
+              </div>
             </div>
 
             <Button
