@@ -11,7 +11,6 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 
-
 const Navbar = () => {
   const user = false;
   const [isOpen, setIsOpen] = useState(false);
@@ -30,29 +29,14 @@ const Navbar = () => {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             <ul className="flex space-x-6">
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-100 hover:text-white transition duration-200 font-medium"
-                >
-                  Home
-                </a>
+              <li className="text-gray-100 hover:text-white transition duration-200 font-medium">
+                <Link to="/">Home</Link>
               </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-100 hover:text-white transition duration-200 font-medium"
-                >
-                  Jobs
-                </a>
+              <li className="text-gray-100 hover:text-white transition duration-200 font-medium">
+                <Link to="/jobs">Jobs</Link>
               </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-100 hover:text-white transition duration-200 font-medium"
-                >
-                  Browse
-                </a>
+              <li className="text-gray-100 hover:text-white transition duration-200 font-medium">
+                <Link to="/browse">Browse</Link>
               </li>
             </ul>
 
