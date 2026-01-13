@@ -1,7 +1,7 @@
 import React from "react";
 
 const FilterCard = () => {
-  return <div></div>;
+  return <div>FilterCard</div>;
 };
 
 export default FilterCard;
