@@ -10,9 +10,10 @@ import { IoLogOut } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
-  const user = false;
+  const { user } = useSelector((store) => store.auth);
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -83,7 +84,7 @@ const Navbar = () => {
                         variant="outline"
                         className="w-full justify-start gap-2 font-medium"
                       >
-                        <FaUser size={16} /> View Profile
+                        <FaUser size={16} /> <Link to="/profile"> View Profile</Link>
                       </Button>
                       <Button
                         variant="ghost"
