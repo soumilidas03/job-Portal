@@ -1,14 +1,16 @@
 import Navbar from "./shared/Navbar";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "./ui/button";
-import { Pen, Mail, Phone } from "lucide-react";
+import { Pen, Mail, Phone, Download } from "lucide-react";
 import { Badge } from "./ui/badge";
+import AppliedJobTable from "./AppliedJobTable";
 
 const skills = ["HTML", "CSS", "JavaScript", "Nodejs"];
 
 const Profile = () => {
+  const isResume = true;
   return (
-    <div className="min-h-screen bg-linear-to-b from-slate-50 to-slate-100">
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100">
       <Navbar />
       <div className="max-w-4xl mx-auto px-4 py-12">
         {/* Profile Header */}
@@ -44,19 +46,47 @@ const Profile = () => {
         </div>
 
         {/* Skills Section */}
-        <div className="bg-white rounded-lg shadow-lg p-8">
+        <div className="bg-white rounded-lg shadow-lg p-8 mb-6">
           <h2 className="text-2xl font-bold text-slate-900 mb-4">Skills</h2>
           <div className="flex flex-wrap gap-3">
             {skills.length > 0 ? (
               skills.map((skill) => (
-                <Badge key={skill} className="px-4 py-2 text-sm">
+                <Badge
+                  key={skill}
+                  className="px-4 py-2 text-sm bg-blue-100 text-blue-700"
+                >
                   {skill}
                 </Badge>
               ))
             ) : (
-              <span>NA</span>
+              <span className="text-slate-500">NA</span>
             )}
           </div>
+        </div>
+
+        {/* Resume Section */}
+        <div className="bg-white rounded-lg shadow-lg p-8 mb-6">
+          <h2 className="text-2xl font-bold text-slate-900 mb-4">Resume</h2>
+          {isResume ? (
+            <a
+              href="https://www.youtube.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 font-semibold"
+            >
+              <Download className="w-4 h-4" /> Download Resume
+            </a>
+          ) : (
+            <span className="text-slate-500">NA</span>
+          )}
+        </div>
+
+        {/* Applied Jobs Section */}
+        <div className="bg-white rounded-lg shadow-lg p-8">
+          <h2 className="text-2xl font-bold text-slate-900 mb-4">
+            Applied Jobs
+          </h2>
+          <AppliedJobTable />
         </div>
       </div>
     </div>
