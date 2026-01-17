@@ -4,11 +4,14 @@ import { Button } from "./ui/button";
 import { Pen, Mail, Phone, Download } from "lucide-react";
 import { Badge } from "./ui/badge";
 import AppliedJobTable from "./AppliedJobTable";
+import { useState } from "react";
+import UpdateProfileDialog from "./UpdateProfileDialog";
 
 const skills = ["HTML", "CSS", "JavaScript", "Nodejs"];
+const isResume = true;
 
 const Profile = () => {
-  const isResume = true;
+  const [open,setOpen]=useState(false);
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100">
       <Navbar />
@@ -20,7 +23,7 @@ const Profile = () => {
               <AvatarImage src="https://github.com/shadcn.png" />
               <AvatarFallback>NM</AvatarFallback>
             </Avatar>
-            <Button variant="outline" size="sm" className="gap-2">
+            <Button onClick={()=>setOpen(true)} variant="outline" size="sm" className="gap-2">
               <Pen className="w-4 h-4" /> Edit
             </Button>
           </div>
@@ -89,6 +92,7 @@ const Profile = () => {
           <AppliedJobTable />
         </div>
       </div>
+      <UpdateProfileDialog open={open} setOpen={setOpen}/>
     </div>
   );
 };
