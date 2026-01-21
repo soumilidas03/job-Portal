@@ -6,12 +6,14 @@ import { Badge } from "./ui/badge";
 import AppliedJobTable from "./AppliedJobTable";
 import { useState } from "react";
 import UpdateProfileDialog from "./UpdateProfileDialog";
+import { useSelector } from "react-redux";
 
 const skills = ["HTML", "CSS", "JavaScript", "Nodejs"];
 const isResume = true;
 
 const Profile = () => {
-  const [open,setOpen]=useState(false);
+  const [open, setOpen] = useState(false);
+  const { user } = useSelector((store) => store.auth);
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100">
       <Navbar />
@@ -23,27 +25,32 @@ const Profile = () => {
               <AvatarImage src="https://github.com/shadcn.png" />
               <AvatarFallback>NM</AvatarFallback>
             </Avatar>
-            <Button onClick={()=>setOpen(true)} variant="outline" size="sm" className="gap-2">
+            <Button
+              onClick={() => setOpen(true)}
+              variant="outline"
+              size="sm"
+              className="gap-2"
+            >
               <Pen className="w-4 h-4" /> Edit
             </Button>
           </div>
 
-          <h1 className="text-3xl font-bold text-slate-900 mb-2">Full Name</h1>
+          <h1 className="text-3xl font-bold text-slate-900 mb-2">
+            {user?.fullName}
+          </h1>
           <p className="text-slate-600 text-lg leading-relaxed mb-6">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias,
-            voluptatum. Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Quo, earum!
+            {user?.profile?.bio}
           </p>
 
           {/* Contact Info */}
           <div className="flex gap-6 text-slate-700">
             <div className="flex items-center gap-2">
               <Mail className="w-5 h-5 text-blue-600" />
-              <span>jk@gmail.com</span>
+              <span>{user?.email}</span>
             </div>
             <div className="flex items-center gap-2">
               <Phone className="w-5 h-5 text-blue-600" />
-              <span>9999563478</span>
+              <span>{user?.phoneNumber}</span>
             </div>
           </div>
         </div>
@@ -52,8 +59,8 @@ const Profile = () => {
         <div className="bg-white rounded-lg shadow-lg p-8 mb-6">
           <h2 className="text-2xl font-bold text-slate-900 mb-4">Skills</h2>
           <div className="flex flex-wrap gap-3">
-            {skills.length > 0 ? (
-              skills.map((skill) => (
+            {user?.profile?.skills.length > 0 ? (
+              user?.profile?.skills.map((skill) => (
                 <Badge
                   key={skill}
                   className="px-4 py-2 text-sm bg-blue-100 text-blue-700"
@@ -92,7 +99,7 @@ const Profile = () => {
           <AppliedJobTable />
         </div>
       </div>
-      <UpdateProfileDialog open={open} setOpen={setOpen}/>
+      <UpdateProfileDialog open={open} setOpen={setOpen} />
     </div>
   );
 };
