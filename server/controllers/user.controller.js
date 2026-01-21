@@ -1,6 +1,8 @@
 import { User } from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import getDataUri from "../utils/datauri.js";
+import cloudinary from "../utils/cloudinary.js";
 export const register = async (req, res) => {
   try {
     const { fullName, email, phoneNumber, password, role } = req.body;
@@ -114,13 +116,18 @@ export const updateProfile = async (req, res) => {
   try {
     const { fullName, email, phoneNumber, bio, skills } = req.body;
     const file = req.file;
-    
-
     //cloudinary
-    let skillsArray;
-    if(skills){
-      skillsArray = skills.split(",");
+    let cloudResponse;
+    if (file) {
+      const fileUri = getDataUri(file);
+      cloudResponse = await cloudinary.uploader.upload(fileUri.content, {
+        resource_type: "raw",
+      });
+    }
 
+    let skillsArray;
+    if (skills) {
+      skillsArray = skills.split(",");
     }
     const userId = req.id; //middleware authentication
     let user = await User.findById(userId);
@@ -131,22 +138,20 @@ export const updateProfile = async (req, res) => {
       });
     }
 
-
     //updating data
 
     if (fullName) user.fullName = fullName;
     if (email) user.email = email;
     if (phoneNumber) user.phoneNumber = phoneNumber;
     if (bio) user.profile.bio = bio;
-    if(skills) user.profile.skills = skillsArray;
-
-
-    // user.email = email;
-    // user.phoneNumber = phoneNumber;
-    // user.profile.bio = bio;
-    // user.profile.skills = skillsArray;
+    if (skills) user.profile.skills = skillsArray;
 
     //resume later
+    if (cloudResponse) {
+      user.profile.resume = cloudResponse.secure_url; //save the cloudinary url
+
+      user.profile.resumeOriginalName = file.originalname; //save the original file name
+    }
 
     await user.save();
 
@@ -160,10 +165,10 @@ export const updateProfile = async (req, res) => {
     };
 
     return res.status(200).json({
-        message:"Profile updated successfully",
-        user,
-        success:true,
-    })
+      message: "Profile updated successfully",
+      user,
+      success: true,
+    });
   } catch (error) {
     console.log(error);
   }

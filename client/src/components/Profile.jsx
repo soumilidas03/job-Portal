@@ -8,7 +8,7 @@ import { useState } from "react";
 import UpdateProfileDialog from "./UpdateProfileDialog";
 import { useSelector } from "react-redux";
 
-const skills = ["HTML", "CSS", "JavaScript", "Nodejs"];
+// const skills = ["HTML", "CSS", "JavaScript", "Nodejs"];
 const isResume = true;
 
 const Profile = () => {
@@ -79,12 +79,12 @@ const Profile = () => {
           <h2 className="text-2xl font-bold text-slate-900 mb-4">Resume</h2>
           {isResume ? (
             <a
-              href="https://www.youtube.com/"
+              href={user?.profile?.resume}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 font-semibold"
             >
-              <Download className="w-4 h-4" /> Download Resume
+              <Download className="w-4 h-4" />  {user?.profile?.resumeOriginalName}
             </a>
           ) : (
             <span className="text-slate-500">NA</span>

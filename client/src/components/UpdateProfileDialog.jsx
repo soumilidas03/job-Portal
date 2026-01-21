@@ -17,6 +17,7 @@ import { setUser } from "../redux/authSlice";
 
 const UpdateProfileDialog = ({ open, setOpen }) => {
   const { user } = useSelector((store) => store.auth);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const dispatch = useDispatch();
 
   const [input, setInput] = useState({
@@ -37,7 +38,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
         phoneNumber: user.phoneNumber || "",
         bio: user.profile?.bio || "",
         skills: user.profile?.skills?.join(", ") || "",
-        file: null,
+        file: user.profile?.resume,
       });
     }
   }, [user, open]);
@@ -47,7 +48,8 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
   };
 
   const fileChangeHandler = (e) => {
-    setInput({ ...input, file: e.target.files[0] });
+    const file = e.target.files?.[0];
+    setInput({ ...input, file });
   };
 
   const submitHandler = async (e) => {
@@ -65,6 +67,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
     }
 
     try {
+      setIsSubmitting(true);
       const res = await axios.post(
         `${USER_API_END_POINT}/profile/update`,
         formData,
@@ -81,6 +84,8 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
     } catch (error) {
       console.error(error);
       toast.error(error?.response?.data?.message || "Update failed");
+    } finally {
+      setIsSubmitting(false);
     }
     console.log(input);
   };
@@ -143,7 +148,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
             <Label>Resume</Label>
             <Input
               type="file"
-              accept=".pdf,.doc,.docx"
+              accept="application/pdf"
               onChange={fileChangeHandler}
             />
           </div>
@@ -156,7 +161,9 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
             >
               Cancel
             </Button>
-            <Button type="submit">Save Changes</Button>
+            <Button type="submit" disabled={isSubmitting}>
+              {isSubmitting ? "Saving..." : "Save Changes"}
+            </Button>
           </div>
         </form>
       </DialogContent>

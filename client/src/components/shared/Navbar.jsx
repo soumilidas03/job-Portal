@@ -7,14 +7,35 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { FaUser } from "react-icons/fa";
 import { IoLogOut } from "react-icons/io5";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "sonner";
+import axios from "axios";
+import { setUser } from "../../redux/authSlice";
+import { USER_API_END_POINT } from "../../utils/constant.js";
 
 const Navbar = () => {
   const { user } = useSelector((store) => store.auth);
   const [isOpen, setIsOpen] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const logoutHandler = async () => {
+    try {
+      const res = await axios.get(`${USER_API_END_POINT}/logout`, {
+        withCredentials: true,
+      });
+      if (res.data.success) {
+        dispatch(setUser(null));
+        navigate("/");
+        toast.success(res.data.message);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message);
+    }
+  };
 
   return (
     <nav className="bg-linear-to-r from-purple-900 to-purple-800 shadow-lg sticky top-0 z-50">
@@ -84,9 +105,11 @@ const Navbar = () => {
                         variant="outline"
                         className="w-full justify-start gap-2 font-medium"
                       >
-                        <FaUser size={16} /> <Link to="/profile"> View Profile</Link>
+                        <FaUser size={16} />{" "}
+                        <Link to="/profile"> View Profile</Link>
                       </Button>
                       <Button
+                        onClick={logoutHandler}
                         variant="ghost"
                         className="w-full justify-start gap-2 text-red-600 hover:text-red-700 hover:bg-red-50 font-medium"
                       >
