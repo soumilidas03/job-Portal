@@ -1,24 +1,52 @@
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import Navbar from "./shared/Navbar";
+import { useParams } from "react-router-dom";
+import { useEffect } from "react";
+import axios from "axios";
+import { JOB_API_END_POINT } from "../utils/constant";
+import { setSingleJob } from "../redux/jobSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const JobDescription = () => {
   const isApplied = true;
+  const params = useParams();
+  const jobId = params.id;
+  const dispatch = useDispatch();
+  const {user}= useSelector(store=>store.auth)
+  const { singleJob } = useSelector((store) => store.job);
+  useEffect(() => {
+    const fetchSingleJob = async () => {
+      try {
+        const res = await axios.get(`${JOB_API_END_POINT}/get/${jobId}`, {
+          withCredentials: true,
+        });
+        if (res.data.success) {
+          dispatch(setSingleJob(res.data.job));
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchSingleJob();
+  }, [jobId, dispatch, user?._id]);
+
   return (
     <div>
       <Navbar />
       <div className="max-w-4xl mx-auto px-4 py-8">
-        <h1 className="text-4xl font-bold mb-4">Frontend Developer</h1>
+        <h1 className="text-4xl font-bold mb-4">{singleJob?.title}</h1>
 
         <div className="flex flex-wrap gap-2 mb-6">
           <Badge className="text-blue-900 bg-blue-200" variant="secondary">
-            12 Positions
+            {singleJob?.position} Positions
           </Badge>
           <Badge className="text-red-900 bg-red-200" variant="secondary">
-            Full Time
+            {singleJob?.jobType}
           </Badge>
           <Badge className="text-green-900 bg-green-200" variant="secondary">
-            24 LPA
+            {singleJob?.salary} LPA
           </Badge>
         </div>
 
@@ -35,31 +63,34 @@ const JobDescription = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <p className="text-gray-600 text-sm font-medium">Role</p>
-              <p className="text-lg font-semibold">Frontend Developer</p>
+              <p className="text-lg font-semibold">{singleJob?.title}</p>
             </div>
+            
             <div>
               <p className="text-gray-600 text-sm font-medium">Location</p>
-              <p className="text-lg font-semibold">Kolkata</p>
+              <p className="text-lg font-semibold">{singleJob?.location}</p>
             </div>
             <div>
               <p className="text-gray-600 text-sm font-medium">
                 Experience Required
               </p>
-              <p className="text-lg font-semibold">2 years</p>
+              <p className="text-lg font-semibold">
+                {singleJob?.experienceLevel}
+              </p>
             </div>
             <div>
               <p className="text-gray-600 text-sm font-medium">Salary</p>
-              <p className="text-lg font-semibold">20-50K</p>
+              <p className="text-lg font-semibold">{singleJob?.salary} LPA</p>
             </div>
             <div>
               <p className="text-gray-600 text-sm font-medium">
                 Total Applicants
               </p>
-              <p className="text-lg font-semibold">1200</p>
+              <p className="text-lg font-semibold">{singleJob?.application?.length}</p>
             </div>
             <div>
               <p className="text-gray-600 text-sm font-medium">Posted Date</p>
-              <p className="text-lg font-semibold">01-01-2026</p>
+              <p className="text-lg font-semibold">{singleJob?.createdAt.split('T')[0]}</p>
             </div>
           </div>
 
@@ -68,9 +99,7 @@ const JobDescription = () => {
               Description
             </p>
             <p className="text-gray-700 leading-relaxed">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Blanditiis reprehenderit quia nam, sunt est itaque autem adipisci
-              aut tempora quae.
+              {singleJob?.description}
             </p>
           </div>
         </div>

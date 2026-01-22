@@ -4,14 +4,24 @@ import { Avatar, AvatarImage } from "./ui/avatar";
 import { Badge } from "./ui/badge";
 import { useNavigate } from "react-router-dom";
 
-const Job = () => {
-  const navigate=useNavigate();
-  const jobId="ghjsckl1234dsbakj"
+const Job = ({ jobId, job }) => {
+  const navigate = useNavigate();
+  // const jobId="ghjsckl1234dsbakj"
+  const daysAgoFunction = (mongodbTime) => {
+    const createdAt = new Date(mongodbTime);
+    const currentTime = new Date();
+    const timeDifference = currentTime - createdAt;
+    return Math.floor(timeDifference / (1000 * 24 * 60 * 60));
+  };
   return (
     <div className="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
       {/* Header */}
       <div className="flex items-start justify-between mb-6">
-        <span className="text-sm text-gray-500">2 days ago</span>
+        <span className="text-sm text-gray-500">
+          {daysAgoFunction(job?.createdAt) === 0
+            ? "Today"
+            : daysAgoFunction(job?.createdAt) + " days ago"}
+        </span>
         <Button
           variant="ghost"
           size="sm"
@@ -28,32 +38,28 @@ const Job = () => {
         </Avatar>
         <div>
           <h3 className="font-semibold text-purple-900 text-lg">
-            Company Name
+            {job?.company?.name}
           </h3>
-          <p className="text-sm text-purple-600">India</p>
+          <p className="text-sm text-purple-600">{job?.location}</p>
         </div>
       </div>
 
       {/* Job Title */}
-      <h2 className="text-xl font-bold text-purple-800 mb-3">Job Title</h2>
+      <h2 className="text-xl font-bold text-purple-800 mb-3">{job?.title}</h2>
 
       {/* Description */}
-      <p className="text-purple-700 mb-4 line-clamp-2">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam
-        perspiciatis alias ipsum qui odit sed reprehenderit tempora accusamus
-        fugiat quos.
-      </p>
+      <p className="text-purple-700 mb-4 line-clamp-2">{job?.description}</p>
 
       {/* Badges */}
       <div className="flex flex-wrap gap-2 mb-6">
         <Badge className="text-blue-900 bg-blue-200" variant="secondary">
-          12 Positions
+          {job?.position} Positions
         </Badge>
         <Badge className="text-red-900 bg-red-200" variant="secondary">
-          Full Time
+          {job?.jobType}
         </Badge>
         <Badge className="text-green-900 bg-green-200" variant="secondary">
-          24 LPA
+          {job?.salary} LPA
         </Badge>
       </div>
 
