@@ -82,22 +82,26 @@ const Navbar = () => {
               <Popover>
                 <PopoverTrigger asChild>
                   <Avatar className="cursor-pointer hover:opacity-75 transition">
-                    <AvatarImage src="https://github.com/shadcn.png" />
-                    <AvatarFallback>NM</AvatarFallback>
+                    <AvatarImage src={user?.profile?.profilePhoto} />
+                    <AvatarFallback>{user?.fullName?.charAt(0)}</AvatarFallback>
                   </Avatar>
                 </PopoverTrigger>
                 <PopoverContent className="w-72">
                   <div className="space-y-4">
                     <div className="flex items-center space-x-3">
                       <Avatar>
-                        <AvatarImage src="https://github.com/shadcn.png" />
-                        <AvatarFallback>NM</AvatarFallback>
+                        <AvatarImage src={user?.profile?.profilePhoto} />
+                        <AvatarFallback>
+                          {user?.fullName?.charAt(0)}
+                        </AvatarFallback>
                       </Avatar>
                       <div>
                         <p className="font-semibold text-gray-900">
-                          Nagma Mirajkar
+                          {user.fullName}
                         </p>
-                        <p className="text-xs text-gray-500">Premium Member</p>
+                        <p className="text-xs text-gray-500">
+                          {user.profile.bio}
+                        </p>
                       </div>
                     </div>
                     <div className="border-t pt-3 space-y-2">

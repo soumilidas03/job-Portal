@@ -22,8 +22,8 @@ const Profile = () => {
         <div className="bg-white rounded-lg shadow-lg p-8 mb-6">
           <div className="flex items-start justify-between mb-6">
             <Avatar className="w-24 h-24">
-              <AvatarImage src="https://github.com/shadcn.png" />
-              <AvatarFallback>NM</AvatarFallback>
+              <AvatarImage src={user?.profile?.profilePhoto} />
+              <AvatarFallback>{user?.fullName?.charAt(0)}</AvatarFallback>
             </Avatar>
             <Button
               onClick={() => setOpen(true)}
@@ -84,7 +84,8 @@ const Profile = () => {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 font-semibold"
             >
-              <Download className="w-4 h-4" />  {user?.profile?.resumeOriginalName}
+              <Download className="w-4 h-4" />{" "}
+              {user?.profile?.resumeOriginalName}
             </a>
           ) : (
             <span className="text-slate-500">NA</span>
