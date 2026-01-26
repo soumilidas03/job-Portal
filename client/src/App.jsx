@@ -7,15 +7,20 @@ import Jobs from "./components/Jobs";
 import Browse from "./components/Browse";
 import Profile from "./components/Profile";
 import JobDescription from "./components/JobDescription";
+import Companies from "./components/admin/Companies";
 
 const appRouter = createBrowserRouter([
   { path: "/", element: <Home /> },
   { path: "/register", element: <Register /> },
   { path: "/login", element: <Login /> },
   { path: "/jobs", element: <Jobs /> },
-  { path: "/description/:id", element:<JobDescription/>},
+  { path: "/description/:id", element: <JobDescription /> },
   { path: "/browse", element: <Browse /> },
   { path: "/profile", element: <Profile /> },
+
+  //admins
+
+  { path: "/admin/companies", element: <Companies /> },
 ]);
 function App() {
   return (

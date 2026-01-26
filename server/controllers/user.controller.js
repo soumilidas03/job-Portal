@@ -13,8 +13,12 @@ export const register = async (req, res) => {
       });
     }
     const file = req.file;
-    const fileUri = getDataUri(file);
-    const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+    if (!file) {
+      return res.status(400).json({
+        message: "Profile photo is required",
+        success: false,
+      });
+    }
     const user = await User.findOne({ email });
     if (user) {
       return res.status(400).json({
@@ -22,6 +26,8 @@ export const register = async (req, res) => {
         success: false,
       });
     }
+    const fileUri = getDataUri(file);
+    const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
     const hashedPassword = await bcrypt.hash(password, 10);
 
     await User.create({
@@ -41,6 +47,10 @@ export const register = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
+    return res.status(500).json({
+      message: "Error registering user",
+      success: false,
+    });
   }
 };
 

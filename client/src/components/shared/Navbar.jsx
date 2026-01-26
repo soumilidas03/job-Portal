@@ -51,15 +51,28 @@ const Navbar = () => {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             <ul className="flex space-x-6">
-              <li className="text-gray-100 hover:text-white transition duration-200 font-medium">
-                <Link to="/">Home</Link>
-              </li>
-              <li className="text-gray-100 hover:text-white transition duration-200 font-medium">
-                <Link to="/jobs">Jobs</Link>
-              </li>
-              <li className="text-gray-100 hover:text-white transition duration-200 font-medium">
-                <Link to="/browse">Browse</Link>
-              </li>
+              {user && user.role === "recruiter" ? (
+                <>
+                  <li className="text-gray-100 hover:text-white transition duration-200 font-medium">
+                    <Link to="/admin/companies">Companies</Link>
+                  </li>
+                  <li className="text-gray-100 hover:text-white transition duration-200 font-medium">
+                    <Link to="/admin/jobs">Jobs</Link>
+                  </li>
+                </>
+              ) : (
+                <>
+                  <li className="text-gray-100 hover:text-white transition duration-200 font-medium">
+                    <Link to="/">Home</Link>
+                  </li>
+                  <li className="text-gray-100 hover:text-white transition duration-200 font-medium">
+                    <Link to="/jobs">Jobs</Link>
+                  </li>
+                  <li className="text-gray-100 hover:text-white transition duration-200 font-medium">
+                    <Link to="/browse">Browse</Link>
+                  </li>
+                </>
+              )}
             </ul>
 
             {!user ? (
@@ -105,13 +118,16 @@ const Navbar = () => {
                       </div>
                     </div>
                     <div className="border-t pt-3 space-y-2">
-                      <Button
-                        variant="outline"
-                        className="w-full justify-start gap-2 font-medium"
-                      >
-                        <FaUser size={16} />{" "}
-                        <Link to="/profile"> View Profile</Link>
-                      </Button>
+                      {user && user.role === "student" && (
+                        <Button
+                          variant="outline"
+                          className="w-full justify-start gap-2 font-medium"
+                        >
+                          <FaUser size={16} />{" "}
+                          <Link to="/profile"> View Profile</Link>
+                        </Button>
+                      )}
+
                       <Button
                         onClick={logoutHandler}
                         variant="ghost"
@@ -139,24 +155,44 @@ const Navbar = () => {
         {/* Mobile Navigation */}
         {isOpen && (
           <div className="md:hidden pb-4 space-y-3">
-            <a
-              href="#"
-              className="block text-gray-100 hover:text-white py-2 font-medium"
-            >
-              Home
-            </a>
-            <a
-              href="#"
-              className="block text-gray-100 hover:text-white py-2 font-medium"
-            >
-              Jobs
-            </a>
-            <a
-              href="#"
-              className="block text-gray-100 hover:text-white py-2 font-medium"
-            >
-              Browse
-            </a>
+            {user && user.role === "recruiter" ? (
+              <>
+                <a
+                  href="/admin/companies"
+                  className="block text-gray-100 hover:text-white py-2 font-medium"
+                >
+                  Companies
+                </a>
+                <a
+                  href="/admin/jobs"
+                  className="block text-gray-100 hover:text-white py-2 font-medium"
+                >
+                  Jobs
+                </a>
+              </>
+            ) : (
+              <>
+                <a
+                  href="/"
+                  className="block text-gray-100 hover:text-white py-2 font-medium"
+                >
+                  Home
+                </a>
+                <a
+                  href="/jobs"
+                  className="block text-gray-100 hover:text-white py-2 font-medium"
+                >
+                  Jobs
+                </a>
+                <a
+                  href="/browse"
+                  className="block text-gray-100 hover:text-white py-2 font-medium"
+                >
+                  Browse
+                </a>
+              </>
+            )}
+
             {!user ? (
               <div className="flex gap-2 pt-2">
                 <Link to="/login" className="flex-1">
@@ -204,9 +240,12 @@ const Navbar = () => {
                         variant="outline"
                         className="w-full justify-start gap-2 font-medium"
                       >
-                        <FaUser size={16} /> View Profile
+                        <Link to="/profile">
+                          <FaUser size={16} /> View Profile
+                        </Link>
                       </Button>
                       <Button
+                        onClick={logoutHandler}
                         variant="ghost"
                         className="w-full justify-start gap-2 text-red-600 hover:text-red-700 hover:bg-red-50 font-medium"
                       >
