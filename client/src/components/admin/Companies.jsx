@@ -2,8 +2,10 @@ import Navbar from "../shared/Navbar";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import CompaniesTable from "./CompaniesTable";
+import { useNavigate } from "react-router-dom";
 
 const Companies = () => {
+  const navigate=useNavigate()
   return (
     <div>
       <Navbar />
@@ -21,6 +23,9 @@ const Companies = () => {
             className="flex-1 max-w-sm"
           />
           <Button className="bg-purple-600 hover:bg-purple-700">Search</Button>
+          <Button onClick={()=>navigate("/admin/companies/create")} className="bg-purple-600 hover:bg-purple-700">
+            New Company
+          </Button>
         </div>
 
         <div className="bg-white rounded-lg shadow">

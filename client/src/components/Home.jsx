@@ -8,14 +8,12 @@ import useGetAllJobs from "../hooks/useGetAllJobs.jsx";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-
-
 const Home = () => {
-  useGetAllJobs()
+  useGetAllJobs();
   const { user } = useSelector((store) => store.auth);
   const navigate = useNavigate();
   useEffect(() => {
-    if (user.role === "recruiter") {
+    if (user?.role === "recruiter") {
       navigate("/admin/companies");
     }
   }, []);
