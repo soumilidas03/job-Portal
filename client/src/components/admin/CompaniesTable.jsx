@@ -11,13 +11,14 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Popover,
   PopoverContent,
-  PopoverHeader,
-  PopoverTitle,
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Edit2, MoreHorizontal, Trash2 } from "lucide-react";
+import { useSelector } from "react-redux";
 
 const CompaniesTable = () => {
+  const { companies } = useSelector((store) => store.company);
+
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden">
       <Table>
@@ -41,40 +42,55 @@ const CompaniesTable = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          <TableRow className="border-b border-gray-100 hover:bg-gray-50 transition-colors">
-            <TableCell>
-              <Avatar className="h-10 w-10">
-                <AvatarImage
-                  src="https://github.com/shadcn.png"
-                  alt="Company logo"
-                />
-                <AvatarFallback>CN</AvatarFallback>
-              </Avatar>
-            </TableCell>
-            <TableCell className="font-medium text-gray-900">
-              Company Name
-            </TableCell>
-            <TableCell className="text-gray-600">01-01-2026</TableCell>
-            <TableCell className="text-right">
-              <Popover>
-                <PopoverTrigger asChild>
-                  <button className="p-2 hover:bg-gray-100 rounded-md transition-colors">
-                    <MoreHorizontal className="h-4 w-4 text-gray-600" />
-                  </button>
-                </PopoverTrigger>
-                <PopoverContent className="w-48" align="end">
-                  <div className="space-y-2">
-                    <button className="flex items-center gap-2 w-full px-3 py-2 text-sm hover:bg-gray-100 rounded-md transition-colors text-gray-700">
-                      <Edit2 className="h-4 w-4" /> Edit
-                    </button>
-                    <button className="flex items-center gap-2 w-full px-3 py-2 text-sm hover:bg-red-50 rounded-md transition-colors text-red-600">
-                      <Trash2 className="h-4 w-4" /> Delete
-                    </button>
-                  </div>
-                </PopoverContent>
-              </Popover>
-            </TableCell>
-          </TableRow>
+          {companies?.length <= 0 ? (
+            <TableRow>
+              <TableCell colSpan="4" className="text-center py-4">
+                You havent registered any company yet
+              </TableCell>
+            </TableRow>
+          ) : (
+            companies?.map((company) => (
+              <TableRow
+                key={company._id}
+                className="border-b border-gray-100 hover:bg-gray-50 transition-colors"
+              >
+                <TableCell>
+                  <Avatar className="h-10 w-10">
+                    <AvatarImage
+                      src={company.logo || "https://github.com/shadcn.png"}
+                      alt="Company logo"
+                    />
+                    <AvatarFallback>{company.name?.charAt(0)}</AvatarFallback>
+                  </Avatar>
+                </TableCell>
+                <TableCell className="font-medium text-gray-900">
+                  {company.name}
+                </TableCell>
+                <TableCell className="text-gray-600">
+                  {company.createdAt.split("T")[0]}
+                </TableCell>
+                <TableCell className="text-right">
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <button className="p-2 hover:bg-gray-100 rounded-md transition-colors">
+                        <MoreHorizontal className="h-4 w-4 text-gray-600" />
+                      </button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-48" align="end">
+                      <div className="space-y-2">
+                        <button className="flex items-center gap-2 w-full px-3 py-2 text-sm hover:bg-gray-100 rounded-md transition-colors text-gray-700">
+                          <Edit2 className="h-4 w-4" /> Edit
+                        </button>
+                        <button className="flex items-center gap-2 w-full px-3 py-2 text-sm hover:bg-red-50 rounded-md transition-colors text-red-600">
+                          <Trash2 className="h-4 w-4" /> Delete
+                        </button>
+                      </div>
+                    </PopoverContent>
+                  </Popover>
+                </TableCell>
+              </TableRow>
+            ))
+          )}
         </TableBody>
       </Table>
     </div>

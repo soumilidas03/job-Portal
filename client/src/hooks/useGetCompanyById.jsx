@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import axios from "axios";
 import { COMPANY_API_END_POINT, JOB_API_END_POINT } from "../utils/constant.js";
 import { useDispatch } from "react-redux";
-import { setAllJobs } from "../redux/jobSlice.js";
 import { setSingleCompany } from "../redux/companySlice";
 
 const useGetCompanyById = (companyId) => {
