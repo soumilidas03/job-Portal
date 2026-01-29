@@ -7,7 +7,7 @@ const companySlice = createSlice({
   },
   reducers: {
     setSingleCompany: (state, action) => {
-      state.singleCompany = action.singleCompany;
+      state.singleCompany = action.payload;
     },
   },
 });
