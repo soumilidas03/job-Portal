@@ -16,12 +16,14 @@ import {
 import { Edit2, MoreHorizontal, Trash2 } from "lucide-react";
 import { useSelector } from "react-redux";
 import { use, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const CompaniesTable = () => {
   const { companies, searchCompanyByText } = useSelector(
     (store) => store.company,
   );
   const [filterCompany, setFilterCompany] = useState(companies);
+  const navigate = useNavigate();
   useEffect(() => {
     const filteredCompany =
       companies.length > 0 &&
@@ -94,7 +96,12 @@ const CompaniesTable = () => {
                     </PopoverTrigger>
                     <PopoverContent className="w-48" align="end">
                       <div className="space-y-2">
-                        <button className="flex items-center gap-2 w-full px-3 py-2 text-sm hover:bg-gray-100 rounded-md transition-colors text-gray-700">
+                        <button
+                          onClick={() =>
+                            navigate(`/admin/companies/${company._id}`)
+                          }
+                          className="flex items-center gap-2 w-full px-3 py-2 text-sm hover:bg-gray-100 rounded-md transition-colors text-gray-700"
+                        >
                           <Edit2 className="h-4 w-4" /> Edit
                         </button>
                         <button className="flex items-center gap-2 w-full px-3 py-2 text-sm hover:bg-red-50 rounded-md transition-colors text-red-600">

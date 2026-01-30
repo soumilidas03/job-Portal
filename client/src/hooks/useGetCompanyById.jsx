@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import axios from "axios";
-import { COMPANY_API_END_POINT, JOB_API_END_POINT } from "../utils/constant.js";
+import { COMPANY_API_END_POINT } from "../utils/constant.js";
 import { useDispatch } from "react-redux";
 import { setSingleCompany } from "../redux/companySlice";
 
@@ -24,7 +24,7 @@ const useGetCompanyById = (companyId) => {
     };
 
     fetchSingleCompany();
-  }, [companyId,dispatch]);
+  }, [companyId, dispatch]);
 };
 
 export default useGetCompanyById;

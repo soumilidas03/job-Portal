@@ -1,4 +1,4 @@
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "../shared/Navbar";
 import { Button } from "../ui/button";
 import { ArrowLeft } from "lucide-react";
@@ -9,8 +9,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import useGetCompanyById from "../../hooks/useGetCompanyById";
 
 const CompanySetup = () => {
+  const param = useParams();
+  useGetCompanyById(param.id);
   const [input, setInput] = useState({
     name: "",
     description: "",
@@ -18,9 +21,9 @@ const CompanySetup = () => {
     location: "",
     file: null,
   });
-  const {singleCompany}=useSelector(store=>store.company)
+  const { singleCompany } = useSelector((store) => store.company);
   const [loading, setLoading] = useState(false);
-  const param = useParams();
+
   const navigate = useNavigate();
   const changeEventHandler = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
@@ -72,13 +75,16 @@ const CompanySetup = () => {
       location: singleCompany?.location || "",
       file: singleCompany?.file || null,
     });
-  },[singleCompany])
+  }, [singleCompany]);
 
   return (
     <div className="min-h-screen bg-gray-50">
       <Navbar />
       <div className="max-w-2xl mx-auto px-4 py-8">
-        <button onClick={()=>navigate("/admin/companies")} className="flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-8">
+        <button
+          onClick={() => navigate("/admin/companies")}
+          className="flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-8"
+        >
           <ArrowLeft size={20} />
           Back
         </button>
