@@ -15,10 +15,26 @@ import {
 } from "@/components/ui/popover";
 import { Edit2, MoreHorizontal, Trash2 } from "lucide-react";
 import { useSelector } from "react-redux";
+import { use, useEffect, useState } from "react";
 
 const CompaniesTable = () => {
-  const { companies } = useSelector((store) => store.company);
-
+  const { companies, searchCompanyByText } = useSelector(
+    (store) => store.company,
+  );
+  const [filterCompany, setFilterCompany] = useState(companies);
+  useEffect(() => {
+    const filteredCompany =
+      companies.length > 0 &&
+      companies.filter((company) => {
+        if (!searchCompanyByText) {
+          return true;
+        }
+        return company?.name
+          ?.toLowerCase()
+          .includes(searchCompanyByText.toLowerCase());
+      });
+    setFilterCompany(filteredCompany);
+  }, [companies, searchCompanyByText]);
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden">
       <Table>
@@ -42,14 +58,14 @@ const CompaniesTable = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {companies?.length <= 0 ? (
+          {filterCompany?.length <= 0 ? (
             <TableRow>
               <TableCell colSpan="4" className="text-center py-4">
                 You havent registered any company yet
               </TableCell>
             </TableRow>
           ) : (
-            companies?.map((company) => (
+            filterCompany?.map((company) => (
               <TableRow
                 key={company._id}
                 className="border-b border-gray-100 hover:bg-gray-50 transition-colors"

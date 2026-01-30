@@ -4,9 +4,18 @@ import { Button } from "../ui/button";
 import CompaniesTable from "./CompaniesTable";
 import { useNavigate } from "react-router-dom";
 import useGetAllCompanies from "../../hooks/useGetAllCompanies";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { setsearchCompanyByText } from "../../redux/companySlice";
 
 const Companies = () => {
   useGetAllCompanies();
+  const [input, setInput] = useState("");
+  const dispatch=useDispatch();
+  useEffect(() => {
+    dispatch(setsearchCompanyByText(input));
+  },[input])
+
   const navigate = useNavigate();
   return (
     <div>
@@ -21,6 +30,7 @@ const Companies = () => {
 
         <div className="flex gap-4 mb-8">
           <Input
+            onChange={(e) => {setInput(e.target.value)}}
             placeholder="Filter by company name"
             className="flex-1 max-w-sm"
           />
