@@ -13,7 +13,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Edit2, MoreHorizontal, Trash2 } from "lucide-react";
+import { Edit2, Eye, MoreHorizontal, Trash2 } from "lucide-react";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -96,6 +96,9 @@ const AdminJobsTable = () => {
                           className="flex items-center gap-2 w-full px-3 py-2 text-sm hover:bg-gray-100 rounded-md transition-colors text-gray-700"
                         >
                           <Edit2 className="h-4 w-4" /> Edit
+                        </button>
+                        <button onClick={()=>navigate(`/admin/jobs/${job._id}/applicants`)} className="flex items-center gap-2 w-full px-3 py-2 text-sm hover:bg-red-50 rounded-md transition-colors text-blue-600">
+                          <Eye className="h-4 w-4" /> Applicants
                         </button>
                         <button className="flex items-center gap-2 w-full px-3 py-2 text-sm hover:bg-red-50 rounded-md transition-colors text-red-600">
                           <Trash2 className="h-4 w-4" /> Delete
