@@ -17,11 +17,30 @@ import {
 import { MoreHorizontal, CheckCircle, XCircle, FileText } from "lucide-react";
 import { Button } from "../ui/button";
 import { useSelector } from "react-redux";
+import { toast } from "sonner";
+import axios from "axios";
+import { APPLICATION_API_END_POINT } from "../../utils/constant";
 
 const shortListingStatus = ["accepted", "rejected"];
 
 const ApplicantsTable = () => {
   const { applicants } = useSelector((store) => store.application);
+  const statusHandler = async (status, id) => {
+    try {
+      axios.defaults.withCredentials = true;
+      const res = await axios.post(
+        `${APPLICATION_API_END_POINT}/status/${id}/update`,
+        { status },
+      );
+
+      if (res.data.success) {
+        toast.success(res.data.message);
+      }
+    } catch (error) {
+      toast.error(error.res.data.message);
+      console.log(error);
+    }
+  };
 
   return (
     <div className="w-full p-6 bg-gradient-to-br from-slate-50 to-slate-100 min-h-screen">
@@ -108,6 +127,7 @@ const ApplicantsTable = () => {
                         <PopoverDescription className="space-y-2">
                           {shortListingStatus.map((status) => (
                             <Button
+                              onClick={() => statusHandler(status, item?._id)}
                               key={status}
                               variant="ghost"
                               className="w-full justify-start text-sm hover:bg-blue-50"
