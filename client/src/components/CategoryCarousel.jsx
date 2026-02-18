@@ -6,6 +6,10 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { Button } from "./ui/button";
+import { setSearchQuery } from "@/redux/jobSlice"; // Add this import
 
 const category = [
   "Frontend Developer",
@@ -16,6 +20,13 @@ const category = [
 ];
 
 const CategoryCarousel = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const searchJobHandler = (query) => {
+    dispatch(setSearchQuery(query));
+    navigate("/browse");
+  };
+
   return (
     <div className="w-full py-6 md:py-8 px-2 md:px-4">
       <Carousel
@@ -32,11 +43,14 @@ const CategoryCarousel = () => {
               className="pl-1 md:pl-2 lg:pl-4 basis-full sm:basis-1/2 lg:basis-1/3"
             >
               <div className="p-1">
-                <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer">
-                  <CardContent className="flex aspect-square items-center justify-center p-4 md:p-6 bg-linear-to-br from-blue-50 to-indigo-50 hover:from-blue-100 hover:to-indigo-100 transition-colors duration-300">
-                    <span className="text-base md:text-lg lg:text-xl font-semibold text-center text-gray-800">
+                <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow duration-300">
+                  <CardContent className="flex aspect-square items-center justify-center p-4 md:p-6 bg-gradient-to-br from-blue-50 to-indigo-50 hover:from-blue-100 hover:to-indigo-100 transition-colors duration-300 rounded-lg">
+                    <Button
+                      onClick={() => searchJobHandler(item)}
+                      className="text-base md:text-lg lg:text-xl font-semibold text-gray-800 bg-white hover:bg-blue-50 border border-blue-200"
+                    >
                       {item}
-                    </span>
+                    </Button>
                   </CardContent>
                 </Card>
               </div>
