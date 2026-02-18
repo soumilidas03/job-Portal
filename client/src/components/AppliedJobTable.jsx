@@ -8,8 +8,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "./ui/badge";
+import { useSelector } from "react-redux";
 
 const AppliedJobTable = () => {
+  const { allAppliedJobs } = useSelector((store) => store.job);
   const appliedJobs = [
     {
       date: "01-01-2026",
@@ -71,23 +73,31 @@ const AppliedJobTable = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {appliedJobs.map((job, index) => (
-            <TableRow
-              key={index}
-              className="hover:bg-gray-50 border-b transition-colors"
-            >
-              <TableCell className="font-medium text-gray-800">
-                {job.date}
-              </TableCell>
-              <TableCell className="text-gray-700">{job.role}</TableCell>
-              <TableCell className="text-gray-700">{job.company}</TableCell>
-              <TableCell className="text-right">
-                <Badge className={`${getStatusColor(job.status)}`}>
-                  {job.status}
-                </Badge>
-              </TableCell>
-            </TableRow>
-          ))}
+          {allAppliedJobs.length <= 0 ? (
+            <span>You havent applied for any job yet</span>
+          ) : (
+            allAppliedJobs.map((appliedJob) => (
+              <TableRow
+                key={appliedJob?._id}
+                className="hover:bg-gray-50 border-b transition-colors"
+              >
+                <TableCell className="font-medium text-gray-800">
+                  {appliedJob?.job?.createdAt.split("T")[0]}
+                </TableCell>
+                <TableCell className="text-gray-700">
+                  {appliedJob?.job?.title}
+                </TableCell>
+                <TableCell className="text-gray-700">
+                  {appliedJob?.job?.company?.name}
+                </TableCell>
+                <TableCell className="text-right">
+                  <Badge className={`${getStatusColor(appliedJob?.status)}`}>
+                    {appliedJob?.status}
+                  </Badge>
+                </TableCell>
+              </TableRow>
+            ))
+          )}
         </TableBody>
       </Table>
     </div>
