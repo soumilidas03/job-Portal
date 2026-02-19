@@ -32,7 +32,7 @@ This platform enables applicants to browse and apply for jobs while allowing rec
 - 📋 View Available Jobs
 - 👨‍💼 View Applicants
 - 🔎 Search Jobs by Name
-- 📅 Track Job Posting Date
+
 
 ---
 
@@ -77,7 +77,7 @@ This ensures:
 ✔ Component Reusability  
 ✔ Accessibility Compliance  
 ✔ Scalable Design System  
-✔ Dark/Light Mode Support
+
 
 ---
 
