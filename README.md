@@ -38,19 +38,19 @@ This platform enables applicants to browse and apply for jobs while allowing rec
 
 ## 🧰 Tech Stack Used
 
-| Technology | Purpose |
-|------------|------------|
-| MongoDB | NoSQL Database |
-| Express.js | Backend Framework |
-| React.js | Frontend Library |
-| Node.js | Runtime Environment |
-| Redux Toolkit | State Management |
-| JWT | Authentication |
-| Multer | Resume Upload |
-| Cloudinary | File Storage |
-| Tailwind CSS | Styling |
-| shadcn/ui | Accessible UI Components |
-| Axios | API Communication |
+| Technology    | Purpose                  |
+| ------------- | ------------------------ |
+| MongoDB       | NoSQL Database           |
+| Express.js    | Backend Framework        |
+| React.js      | Frontend Library         |
+| Node.js       | Runtime Environment      |
+| Redux Toolkit | State Management         |
+| JWT           | Authentication           |
+| Multer        | Resume Upload            |
+| Cloudinary    | File Storage             |
+| Tailwind CSS  | Styling                  |
+| shadcn/ui     | Accessible UI Components |
+| Axios         | API Communication        |
 
 ---
 
@@ -58,18 +58,18 @@ This platform enables applicants to browse and apply for jobs while allowing rec
 
 The frontend UI is built using:
 
-- Tailwind CSS for responsive utility-first styling  
-- shadcn/ui for modern and accessible components  
+- Tailwind CSS for responsive utility-first styling
+- shadcn/ui for modern and accessible components
 
 Reusable UI components include:
 
-- Dialogs  
-- Cards  
-- Buttons  
-- Inputs  
-- Tabs  
-- Toast Notifications  
-- Dropdown Menus  
+- Dialogs
+- Cards
+- Buttons
+- Inputs
+- Tabs
+- Toast Notifications
+- Dropdown Menus
 
 This ensures:
 
@@ -77,10 +77,10 @@ This ensures:
 ✔ Component Reusability  
 ✔ Accessibility Compliance  
 ✔ Scalable Design System  
-✔ Dark/Light Mode Support  
+✔ Dark/Light Mode Support
 
 ---
 
+## 🏗️ System Architecture
 
-
-
+/assets/architecture.jpeg
