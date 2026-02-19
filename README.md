@@ -81,6 +81,6 @@ This ensures:
 
 ---
 
-## 🏗️ System Architecture
+
 
 
