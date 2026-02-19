@@ -33,7 +33,6 @@ This platform enables applicants to browse and apply for jobs while allowing rec
 - 👨‍💼 View Applicants
 - 🔎 Search Jobs by Name
 
-
 ---
 
 ## 🧰 Tech Stack Used
@@ -76,11 +75,66 @@ This ensures:
 ✔ Clean UI/UX  
 ✔ Component Reusability  
 ✔ Accessibility Compliance  
-✔ Scalable Design System  
-
+✔ Scalable Design System
 
 ---
 
 ## 🏗️ System Architecture
 
 ![image alt](https://github.com/soumilidas03/job-Portal/blob/48a6d44e87a5a10f8e4fe945a51d5bb0e2f5d577/assets/architecture.jpeg)
+
+## 📸 Application Screenshots
+
+### 🔐 Sign In Page
+
+<p align="center">
+  <img src="./assets/sign%20in.png" width="900"/>
+</p>
+
+---
+
+### 🏠 Home Page
+
+<p align="center">
+  <img src="./assets/home.png" width="900"/>
+</p>
+
+---
+
+### 🔍 Jobs Page
+
+<p align="center">
+  <img src="./assets/jobs.png" width="900"/>
+</p>
+
+---
+
+### 📄 Job Description Page
+
+<p align="center">
+  <img src="./assets/description.png" width="900"/>
+</p>
+
+---
+
+### 👤 Profile Page
+
+<p align="center">
+  <img src="./assets/profile.png" width="900"/>
+</p>
+
+---
+
+### 🏢 Companies Management
+
+<p align="center">
+  <img src="./assets/companies.png" width="900"/>
+</p>
+
+---
+
+### 🛠️ Admin Jobs Dashboard
+
+<p align="center">
+  <img src="./assets/admin%20jobs.png" width="900"/>
+</p>
