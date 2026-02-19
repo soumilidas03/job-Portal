@@ -136,5 +136,5 @@ This ensures:
 ### 🛠️ Admin Jobs Dashboard
 
 <p align="center">
-  <img src="./assets/admin%20jobs.png" width="900"/>
+  <img src="[./assets/admin%20jobs.png](https://github.com/soumilidas03/job-Portal/blob/3f919bbfcbf349690a26982ad44151463e3fc37a/assets/admin%20jobs.png)" width="900"/>
 </p>
