@@ -1,4 +1,4 @@
-import React from "react";
+import { useEffect, useState } from "react";
 import Navbar from "./shared/navbar";
 import FilterCard from "./FilterCard";
 import Job from "./Job";
@@ -7,7 +7,23 @@ import { useSelector } from "react-redux";
 // const jobsArray = [1, 2, 3, 4, 5, 6, 7, 8];
 
 const Jobs = () => {
-  const { allJobs } = useSelector((store) => store.job);
+  const { allJobs, searchQuery } = useSelector((store) => store.job);
+  const [filterJobs, setFilterJobs] = useState(allJobs);
+  useEffect(() => {
+    if (searchQuery) {
+      const filteredJobs = allJobs.filter((job) => {
+        return (
+          job.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          job.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          job.location.toLowerCase().includes(searchQuery.toLowerCase()) 
+          
+        );
+      });
+      setFilterJobs(filteredJobs);
+    } else {
+      setFilterJobs(allJobs);
+    }
+  }, [allJobs, searchQuery]);
   return (
     <>
       <Navbar />
@@ -26,7 +42,7 @@ const Jobs = () => {
 
           {/* Jobs Section */}
           <section className="lg:col-span-3">
-            {allJobs.length === 0 ? (
+            {filterJobs?.length === 0 ? (
               <div className="flex items-center justify-center h-40 border rounded-lg bg-gray-50">
                 <span className="text-gray-500 text-lg">
                   No jobs found. Try adjusting filters.
@@ -34,7 +50,7 @@ const Jobs = () => {
               </div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
-                {allJobs.map((job) => (
+                {filterJobs?.map((job) => (
                   <Job jobId={job._id} job={job} />
                 ))}
               </div>
