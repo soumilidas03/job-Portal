@@ -83,4 +83,4 @@ This ensures:
 
 ## 🏗️ System Architecture
 
-/assets/architecture.jpeg
+![image alt](https://github.com/soumilidas03/job-Portal/blob/48a6d44e87a5a10f8e4fe945a51d5bb0e2f5d577/assets/architecture.jpeg)
