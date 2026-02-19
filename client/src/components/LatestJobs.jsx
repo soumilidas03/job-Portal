@@ -5,6 +5,7 @@ import LatestJobCards from "./LatestJobCards";
 
 const LatestJobs = () => {
   const { allJobs } = useSelector((store) => store.job);
+  
   return (
     <div className="py-12 px-4 md:px-8 lg:px-16">
       <div className="text-center mb-10">
@@ -21,7 +22,7 @@ const LatestJobs = () => {
         ) : (
           allJobs
             .slice(0, 6)
-            .map((job) => <LatestJobCards key={job._id} job={job} />)
+            .map((job) => <LatestJobCards  key={job._id} job={job} />)
         )}
       </div>
     </div>
